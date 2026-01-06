@@ -6,7 +6,7 @@ from converter_oop import CurrencyConverter
 @patch('converter_oop.requests.Session')
 def test_fetch_rate_success(mock_session_cls):
 
-    mock_instance = mock_session_cls.return_value
+    mock_instance = mock_session_cls.return_value # mocking the constructor call
 
     mock_response = Mock()
     mock_response.status_code = 200

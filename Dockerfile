@@ -1,17 +1,21 @@
-# Base image
+# 1. Base Image
 FROM python:3.12-slim
 
-# Set working directory
+# 2. Setup Workspace
 WORKDIR /app
 
-# Copy dependency file first (for layer caching)
+# 3. Install Dependencies
 COPY requirements.txt .
-
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# 4. Copy Code
 COPY . .
 
-# Default command: run tests
-CMD ["pytest", "-v"]
+# 5. EXPOSE THE PORT
+# This tells Docker: "I plan to listen on port 8000"
+EXPOSE 8000
+
+# 6. START THE SERVER
+# --host 0.0.0.0 is MANDATORY for Docker. 
+# It lets the container accept connections from outside (your Mac).
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
